@@ -2,7 +2,8 @@ import argparse
 import sys
 
 from config import getConfig
-from logproc import init_logger, info_logger
+from logproc import init_logger
+from checkproc import check_proc
 
 
 # main process
@@ -17,6 +18,9 @@ def main(args):
     # proxy information
     proxy_list_file = getConfig(conf_file, 'proxy_info', 'proxy_list_file')
     proxy_success_list = getConfig(conf_file, 'proxy_info', 'proxy_success_list')
+
+    # check process
+    check_proc(proxy_list_file, proxy_success_list)
 
 
 # argument parser
