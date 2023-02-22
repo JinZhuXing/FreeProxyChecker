@@ -19,8 +19,13 @@ def main(args):
     proxy_list_file = getConfig(conf_file, 'proxy_info', 'proxy_list_file')
     proxy_success_list = getConfig(conf_file, 'proxy_info', 'proxy_success_list')
 
+    # check rule
+    check_url = getConfig(conf_file, 'check_rule', 'check_url')
+    header_referer = getConfig(conf_file, 'check_rule', 'header_referer')
+    header_host = getConfig(conf_file, 'check_rule', 'header_host')
+
     # check process
-    check_proc(proxy_list_file, proxy_success_list)
+    check_proc(proxy_list_file, proxy_success_list, check_url, header_referer, header_host)
 
 
 # argument parser
