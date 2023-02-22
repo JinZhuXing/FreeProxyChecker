@@ -8,7 +8,8 @@ def get_current_ip(proxy_info):
         ip_request = requests.get(
             url = 'http://icanhazip.com/',
             proxies = proxy_info,
-            verify = False, timeout=10
+            verify = False,
+            timeout=10
         )
     except Exception as e:
         error_logger('Failed to get current IP address')
@@ -25,10 +26,36 @@ def check_proxy_ip(proxy_address, check_url, header_info):
         'https': proxy_address
     }
 
+    # show proxy address
+    info_logger('Proxy Address: ' + proxy_address)
+
     # check proxy ip address
     current_ip = get_current_ip(proxy_info)
     if (current_ip != ''):
         info_logger(current_ip, '\033[41m')
+
+    # check current proxy with check url
+    try:
+        response = requests.get(
+            check_url,
+            headers = header_info,
+            proxies = proxy_info,
+            allow_redirects = False,
+            timeout=30
+        )
+    except Exception as e:
+        error_logger('Failed to connect to check URL')
+        print(e)
+        return False
+    
+    # show response
+    if (response.status_code == 200):
+        info_logger(str(response.status_code), '\033[32m')
+    else:
+        info_logger(str(response.status_code))
+        return False
+
+    return True
 
 
 def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = '', header_host = ''):
