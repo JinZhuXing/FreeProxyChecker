@@ -1,4 +1,5 @@
 import requests
+import csv
 
 from logproc import info_logger, error_logger
 
@@ -82,8 +83,21 @@ def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = 
     if ((header_host != '') and (len(header_host) > 0)):
         header_info['Host'] = header_host
 
-    # check proxy
-    check_result = check_proxy_ip('socks5://158.69.225.110:59166', check_url, header_info)
-    if (check_result == True):
-        # save current proxy information
-        export_file.write('socks5://158.69.225.110:59166' + '\n')
+    # load proxy list file
+    proxy_list_file = open(proxy_list_file, mode = 'r', encoding = 'utf-8')
+    proxy_list_reader = csv.DictReader(proxy_list_file)
+
+    # scan all proxies
+    for proxy_info_dict in proxy_list_reader:
+        # prepare proxy address
+        proxy_info = dict(proxy_info_dict)
+        proxy_url = proxy_info['Protocol'] + '://' + proxy_info['IP'] + ':' + proxy_info['Port']
+
+        # check proxy
+        check_result = check_proxy_ip(proxy_url, check_url, header_info)
+        if (check_result == True):
+            # save current proxy information
+            export_file.write(proxy_url + '\n')
+
+        # add line space
+        info_logger('*****************************************************')
