@@ -70,6 +70,10 @@ def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = 
     info_logger('Header Host' + header_host)
     info_logger('=====================================================')
 
+    # prepare export list file
+    export_file = open(proxy_success_list, mode = 'a+', encoding = 'utf-8')
+    export_file.seek(0, 2)
+
     # prepare request header
     header_info = requests.utils.default_headers()
     header_info['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.46'
@@ -79,4 +83,7 @@ def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = 
         header_info['Host'] = header_host
 
     # check proxy
-    check_proxy_ip('socks5://158.69.225.110:59166', check_url, header_info)
+    check_result = check_proxy_ip('socks5://158.69.225.110:59166', check_url, header_info)
+    if (check_result == True):
+        # save current proxy information
+        export_file.write('socks5://158.69.225.110:59166' + '\n')
