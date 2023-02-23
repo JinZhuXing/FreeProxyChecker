@@ -115,3 +115,7 @@ def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = 
     # show information
     info_logger('Total Count: ' + str(total_count))
     info_logger('Success Count: ' + str(success_count))
+
+    # close files
+    proxy_list_file.close()
+    export_file.close()
