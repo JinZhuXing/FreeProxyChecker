@@ -68,7 +68,7 @@ def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = 
     info_logger('')
     info_logger('Check URL: ' + check_url)
     info_logger('Header Referer: ' + header_referer)
-    info_logger('Header Host' + header_host)
+    info_logger('Header Host: ' + header_host)
     info_logger('=====================================================')
 
     # prepare export list file
