@@ -87,6 +87,10 @@ def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = 
     proxy_list_file = open(proxy_list_file, mode = 'r', encoding = 'utf-8')
     proxy_list_reader = csv.DictReader(proxy_list_file)
 
+    # initialize count variables
+    total_count = 0
+    success_count = 0
+
     # scan all proxies
     for proxy_info_dict in proxy_list_reader:
         # prepare proxy address
@@ -99,5 +103,15 @@ def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = 
             # save current proxy information
             export_file.write(proxy_url + '\n')
 
+            # increase success count
+            success_count += 1
+
+        # increase total count
+        total_count += 1
+
         # add line space
         info_logger('*****************************************************')
+
+    # show information
+    info_logger('Total Count: ' + str(total_count))
+    info_logger('Success Count: ' + str(success_count))
