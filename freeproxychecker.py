@@ -23,9 +23,10 @@ def main(args):
     check_url = getConfig(conf_file, 'check_rule', 'check_url')
     header_referer = getConfig(conf_file, 'check_rule', 'header_referer')
     header_host = getConfig(conf_file, 'check_rule', 'header_host')
+    time_out = int(getConfig(conf_file, 'check_rule', 'time_out'))
 
     # check process
-    check_proc(proxy_list_file, proxy_success_list, check_url, header_referer, header_host)
+    check_proc(proxy_list_file, proxy_success_list, check_url, header_referer, header_host, time_out)
 
 
 # argument parser

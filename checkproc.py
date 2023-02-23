@@ -20,7 +20,7 @@ def get_current_ip(proxy_info):
     return ip_request.text.rstrip('\n')
 
 
-def check_proxy_ip(proxy_address, check_url, header_info):
+def check_proxy_ip(proxy_address, check_url, header_info, time_out):
     # prepare proxy information
     proxy_info = {
         'http': proxy_address,
@@ -42,7 +42,7 @@ def check_proxy_ip(proxy_address, check_url, header_info):
             headers = header_info,
             proxies = proxy_info,
             allow_redirects = False,
-            timeout=30
+            timeout = time_out
         )
     except Exception as e:
         error_logger('Failed to connect to check URL')
@@ -59,7 +59,7 @@ def check_proxy_ip(proxy_address, check_url, header_info):
     return True
 
 
-def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = '', header_host = ''):
+def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = '', header_host = '', time_out = 30):
     # show information
     info_logger('=====================================================')
     info_logger('Check process start with following parameters')
@@ -98,7 +98,7 @@ def check_proc(proxy_list_file, proxy_success_list, check_url, header_referer = 
         proxy_url = proxy_info['Protocol'] + '://' + proxy_info['IP'] + ':' + proxy_info['Port']
 
         # check proxy
-        check_result = check_proxy_ip(proxy_url, check_url, header_info)
+        check_result = check_proxy_ip(proxy_url, check_url, header_info, time_out)
         if (check_result == True):
             # save current proxy information
             export_file.write(proxy_url + '\n')
