@@ -31,9 +31,9 @@ def check_proxy_ip(proxy_address, check_url, header_info, time_out):
     info_logger('Proxy Address: ' + proxy_address)
 
     # check proxy ip address
-    current_ip = get_current_ip(proxy_info)
-    if (current_ip != ''):
-        info_logger(current_ip, '\033[41m')
+    # current_ip = get_current_ip(proxy_info)
+    # if (current_ip != ''):
+    #     info_logger(current_ip, '\033[41m')
 
     # check current proxy with check url
     try:
@@ -41,7 +41,8 @@ def check_proxy_ip(proxy_address, check_url, header_info, time_out):
             check_url,
             headers = header_info,
             proxies = proxy_info,
-            allow_redirects = False,
+            verify = False,
+            allow_redirects = True,
             timeout = time_out
         )
     except Exception as e:
